@@ -5,14 +5,14 @@ const io = require("socket.io")(server);
 const port = 3000;
 
 let truckSocket = null;
-let passengerSocket = null;
+let clientSocket = null;
 
 io.on("connection", (socket) => {
   console.log("L", "a user connected =D");
 
   socket.on("truckRequest", (routeResponse) => {
     console.log("Someone is looking for a truck!");
-    passengerSocket = socket;
+    clientSocket = socket;
     if (truckSocket != null) {
       truckSocket.emit("truckRequest", routeResponse);
     }
@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("driverLocation", (driverLocation) => {
-    passengerSocket.emit("driverLocation", driverLocation);
+    clientSocket.emit("driverLocation", driverLocation);
   });
 });
 
